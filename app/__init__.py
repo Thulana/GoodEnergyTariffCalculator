@@ -1,4 +1,4 @@
-from app.errors.handlers import handle_exception
+from app.errors.handlers import handle_internal_exception, handle_external_exception
 from config import Config
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -8,7 +8,6 @@ from flask_marshmallow import Marshmallow
 from flask_jwt_extended import JWTManager
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-import rq
 import logging
 from logging.handlers import RotatingFileHandler
 import os
@@ -22,13 +21,15 @@ cors = CORS()
 limiter = Limiter(
     key_func=get_remote_address, default_limits=["200 per day", "50 per hour"]
 )
+logger = None
 
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    app.register_error_handler(500, handle_exception)
+    app.register_error_handler(500, handle_internal_exception)
+    app.register_error_handler(400, handle_external_exception)
 
     with app.app_context():
         db.init_app(app)

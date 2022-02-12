@@ -87,7 +87,6 @@ out
 gen
 .idea/
 app.db
-migrations/
 venv/
 !/app/tests/.coverage
 .coverage

@@ -1,4 +1,3 @@
-import os
 import click
 import pandas as pd
 from app import create_app
@@ -12,7 +11,7 @@ from app.models import Prices
 app = create_app()
 
 
-@app.cli.command('remove_old_jwts')
+@app.cli.command("remove_old_jwts")
 def remove_old_jwts():
     """
     Scan the database for JWT tokens in the Revoked Token table older than 5 days and remove them.
@@ -25,8 +24,8 @@ def remove_old_jwts():
 
     old_tokens = (
         db.session.query(RevokedTokenModel)
-            .filter(RevokedTokenModel.date_revoked < delete_date)
-            .all()
+        .filter(RevokedTokenModel.date_revoked < delete_date)
+        .all()
     )
 
     if old_tokens:
@@ -46,11 +45,11 @@ def remove_old_jwts():
 
 
 @app.cli.command("import_prices")
-@click.argument('file_path', nargs=1)
+@click.argument("file_path", nargs=1)
 def import_prices(file_path):
     # file_path = os.environ.get("CSV_PATH")
     try:
-        df = pd.read_csv(file_path, na_values=[''])
+        df = pd.read_csv(file_path, na_values=[""])
         df.dropna(inplace=True)
         for index, row in df.iterrows():
             record = get_record(row)
@@ -63,18 +62,21 @@ def import_prices(file_path):
 
 
 def get_record(row):
-    house_no_min = row['house_number'].split('-')[0]
-    house_no_max = row['house_number'].split('-')[1]
-    return Prices(**{
-        'postal_code': row['postal_code'],
-        'city': row['city'],
-        'street': row['street'],
-        'house_no_min': house_no_min,
-        'house_no_max': house_no_max,
-        'unit_price': row['unit_price'],
-        'grid_fee': row['grid_fees'],
-        'kwh_price': row['kwh_price']
-    })
+    house_no_min = row["house_number"].split("-")[0]
+    house_no_max = row["house_number"].split("-")[1]
+    return Prices(
+        **{
+            "postal_code": row["postal_code"],
+            "city": row["city"],
+            "street": row["street"],
+            "house_no_min": house_no_min,
+            "house_no_max": house_no_max,
+            "unit_price": row["unit_price"],
+            "grid_fee": row["grid_fees"],
+            "kwh_price": row["kwh_price"],
+        }
+    )
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0")
