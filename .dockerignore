@@ -1,9 +1,6 @@
 #Ignore the logs directory
 logs/
 
-#Ignore migrations
-migrations/
-
 #Ignore infrastructure setup
 infrastructure/
 
