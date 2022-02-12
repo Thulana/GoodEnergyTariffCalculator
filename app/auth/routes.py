@@ -103,7 +103,6 @@ def login() -> str:
         "access_token": create_access_token(identity=user.id, fresh=True),
         "refresh_token": create_refresh_token(identity=user.id),
     }
-    print(tokens)
     return jsonify(tokens), 200
 
 

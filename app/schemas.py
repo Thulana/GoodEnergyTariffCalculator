@@ -12,9 +12,9 @@ class UsersSchema(ma.SQLAlchemyAutoSchema):
 class UsersDeserializingSchema(Schema):
     username = fields.String(required=True)
     password = fields.String(required=True)
-    first_name = fields.String(required=True)
-    last_name = fields.String(required=True)
-    email = fields.Email(required=True)
+    first_name = fields.String()
+    last_name = fields.String()
+    email = fields.Email()
 
 
 class PricesSchema(ma.SQLAlchemyAutoSchema):
