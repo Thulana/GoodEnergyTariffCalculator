@@ -1,6 +1,5 @@
 import unittest
-from app import create_app, db
-from app.models import Users
+from app import create_app
 from config import Config
 
 

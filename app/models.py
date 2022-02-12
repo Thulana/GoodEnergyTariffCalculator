@@ -1,8 +1,6 @@
 from app import db, jwt
-from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-import rq
 
 
 @jwt.user_lookup_loader

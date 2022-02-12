@@ -1,17 +1,13 @@
 from flask import request, jsonify
-
-from app import db
+from app import logger
 from app.prices import bp
 from app.models import Prices
-from app.schemas import PricesSchema, PriceRequestDeserializingSchema
+from app.schemas import PriceRequestDeserializingSchema
 from app.errors.handlers import bad_request, not_found
 
-from flask_jwt_extended import jwt_required, current_user
+from flask_jwt_extended import jwt_required
 
 from marshmallow import ValidationError
-
-import asyncio
-from aiohttp import ClientSession
 
 # Declare database schemas so they can be returned as JSON objects
 price_request_schema = PriceRequestDeserializingSchema()
@@ -26,13 +22,14 @@ def get_tariff() -> str:
     Returns
     -------
     str
-        A JSON object containing a success message
+        A JSON object containing the tariff price
     """
     try:
         result = price_request_schema.load(request.json)
     except ValidationError as e:
         return bad_request(e.messages)
 
+    # Fetch prices for the request data from database
     prices = (
         Prices.query.filter(Prices.postal_code == result["zip_code"])
         .filter(Prices.city == result["city"])
@@ -42,16 +39,29 @@ def get_tariff() -> str:
         .all()
     )
 
-    print(prices)
+    # If no prices found return 404
     if len(prices) == 0:
         return not_found("Tariff not found")
 
+    # calculate the total tariff
     total_tariff = calculate_total_tariff(prices, result["yearly_kwh_consumption"])
 
     return jsonify(total_tariff), 200
 
 
 def calculate_total_tariff(prices, consumption):
+    """
+    Calculate total tariff for given prices and consumption
+    Parameters
+    ----------
+    prices - List of Prices objects
+    consumption - consumption
+
+    Returns
+    -------
+    Return total tariff object
+
+    """
     price_list = []
     for price in prices:
         price_list.append(calculate_tariff(price, consumption))
@@ -62,6 +72,18 @@ def calculate_total_tariff(prices, consumption):
 
 
 def calculate_tariff(price, consumption):
+    """
+
+    Parameters
+    ----------
+    price - Single price object
+    consumption - consumption
+
+    Returns
+    -------
+    tariff object for the price
+
+    """
     return {
         "unit_price": price.unit_price,
         "grid_fees": price.grid_fee,
@@ -70,32 +92,3 @@ def calculate_tariff(price, consumption):
         + price.grid_fee
         + round(price.kwh_price * consumption, 2),
     }
-
-
-# @bp.get("/get/user/price/async")
-# @jwt_required()
-# async def async_posts_api_call() -> str:
-#     """
-#     Calls two endpoints from an external API as async demo
-#
-#     Returns
-#     -------
-#     str
-#         A JSON object containing the prices
-#     """
-#     urls = [
-#         "https://jsonplaceholder.typicode.com/posts",
-#         "https://jsonplaceholder.typicode.com/posts",
-#         "https://jsonplaceholder.typicode.com/posts",
-#         "https://jsonplaceholder.typicode.com/posts",
-#         "https://jsonplaceholder.typicode.com/posts",
-#     ]
-#
-#     async with ClientSession() as session:
-#         tasks = (session.get(url) for url in urls)
-#         user_posts_res = await asyncio.gather(*tasks)
-#         json_res = [await r.json() for r in user_posts_res]
-#
-#     response_data = {"prices": json_res}
-#
-#     return response_data, 200
