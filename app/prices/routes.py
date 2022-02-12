@@ -55,10 +55,10 @@ def calculate_total_tariff(prices, consumption):
     price_list = []
     for price in prices:
         price_list.append(calculate_tariff(price, consumption))
-    mean_dict = {}
+    avg_price = {}
     for key in price_list[0].keys():
-        mean_dict[key] = sum(d[key] for d in price_list) / len(price_list)
-    return mean_dict
+        avg_price[key] = round(sum(d[key] for d in price_list) / len(price_list),2)
+    return avg_price
 
 
 def calculate_tariff(price, consumption):
