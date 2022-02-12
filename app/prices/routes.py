@@ -57,7 +57,7 @@ def calculate_total_tariff(prices, consumption):
         price_list.append(calculate_tariff(price, consumption))
     avg_price = {}
     for key in price_list[0].keys():
-        avg_price[key] = round(sum(d[key] for d in price_list) / len(price_list),2)
+        avg_price[key] = round(sum(d[key] for d in price_list) / len(price_list), 2)
     return avg_price
 
 
