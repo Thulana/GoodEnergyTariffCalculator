@@ -39,7 +39,7 @@ class TestAuth(unittest.TestCase):
                     "password": "secret",
                     "first_name": "tim",
                     "last_name": "apple",
-                    "email": "tim@test.com"
+                    "email": "tim@test.com",
                 },
             )
 
@@ -57,7 +57,7 @@ class TestAuth(unittest.TestCase):
                     "password": "secret",
                     "first_name": "tim",
                     "last_name": "apple",
-                    "email": "tim@test.com"
+                    "email": "tim@test.com",
                 },
             )
 

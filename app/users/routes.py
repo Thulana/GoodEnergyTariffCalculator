@@ -9,6 +9,7 @@ from flask_jwt_extended import jwt_required, current_user
 user_schema = UsersSchema(exclude=("email", "password_hash"))
 users_schema = UsersSchema(many=True, exclude=("email", "password_hash"))
 
+
 @bp.get("/<string:username>")
 @jwt_required()
 def get_user(username: str) -> str:

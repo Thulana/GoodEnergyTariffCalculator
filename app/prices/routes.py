@@ -33,14 +33,20 @@ def get_tariff() -> str:
     except ValidationError as e:
         return bad_request(e.messages)
 
-    prices = Prices.query.filter(Prices.postal_code == result['zip_code']).filter(Prices.city == result['city'])\
-        .filter(Prices.street == result['street']).filter(Prices.house_no_max >= result['house_number']).filter(Prices.house_no_min <= result['house_number']).all()
+    prices = (
+        Prices.query.filter(Prices.postal_code == result["zip_code"])
+        .filter(Prices.city == result["city"])
+        .filter(Prices.street == result["street"])
+        .filter(Prices.house_no_max >= result["house_number"])
+        .filter(Prices.house_no_min <= result["house_number"])
+        .all()
+    )
 
     print(prices)
     if len(prices) == 0:
         return not_found("Tariff not found")
 
-    total_tariff = calculate_total_tariff(prices,result['yearly_kwh_consumption'])
+    total_tariff = calculate_total_tariff(prices, result["yearly_kwh_consumption"])
 
     return jsonify(total_tariff), 200
 
@@ -54,13 +60,17 @@ def calculate_total_tariff(prices, consumption):
         mean_dict[key] = sum(d[key] for d in price_list) / len(price_list)
     return mean_dict
 
+
 def calculate_tariff(price, consumption):
-     return {
-         'unit_price': price.unit_price,
-         'grid_fees': price.grid_fee,
-         'kwh_price': price.kwh_price,
-         'total_price': price.unit_price + price.grid_fee + round(price.kwh_price * consumption,2)
-     }
+    return {
+        "unit_price": price.unit_price,
+        "grid_fees": price.grid_fee,
+        "kwh_price": price.kwh_price,
+        "total_price": price.unit_price
+        + price.grid_fee
+        + round(price.kwh_price * consumption, 2),
+    }
+
 
 # @bp.get("/get/user/price/async")
 # @jwt_required()
