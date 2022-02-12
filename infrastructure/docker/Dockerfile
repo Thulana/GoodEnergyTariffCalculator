@@ -8,7 +8,6 @@ RUN apt-get update -y
 RUN apt-get install -y python3-flask
 RUN pip3 install -r requirements.txt
 
-RUN flask db init
 RUN flask db migrate -m "Creating database"
 RUN flask db upgrade
 
