@@ -155,8 +155,8 @@ Following environment variables will be used by the service.
 #### Database
 
 * SQLite database
-* Custom SQL dialect as default dialect is not supported due to SQLite limitations
-* Hibernate as the ORM (persistence framework)
+* SQLAlchemy as the ORM
+* Alembic used as the database migration tool
 
 #### Python
 
