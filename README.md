@@ -57,7 +57,7 @@ Issue following commands from root folder of the project
 (This will use the location_prices.csv for data sourcing)
 
 * Build : `docker build -t <image-name> -f infrastructure/docker/Dockerfile .`
-* Run: `docker run -p 5000:5000 -td tariff_calc`
+* Run: `docker run -p 5000:5000 -td <image-name>`
 
 Environment variables defined in refer: [Environment Variables](#environment-variables)* can be provided like below. (If not provided, will fallback to default)
 
@@ -88,7 +88,7 @@ This will install the required packages within your venv.
 ---
 
 #### Setting up SQLite3 Database
-####(SQLite3 is used for demonstration purposes. For production required a central MySQL/ Postgres database)
+#### (SQLite3 is used for demonstration purposes. For production required a global MySQL/ Postgres database)
 
 Database migrations are handled through Flask's Migrate Package. Migrations are used for updating and creating necessary tables/entries in your database.
 
@@ -109,6 +109,7 @@ flask db upgrade
 Use following commands to start service in development environment.
 
 *Note: Needs to have environment variables exposed. refer: [Environment Variables](#environment-variables)*
+Otherwise default values will be used.
 
 ```bash
 export FLASK_APP=good_energy_tariff_calc.py
@@ -122,8 +123,14 @@ flask run
 
 ### Data sourcing
 
-For production, CSV file should be imported from a different method to the database. For demonstration
-purpose, following command can be used to populate the database with a local csv file or file URL.
+For production, CSV file should be imported from a different method to the database. suggested approaches are,
+* A database population script which will upsert data in CSV file to database (This can be triggered timely or as csv file as input (file change in S3))
+* process: 
+  * External provider upload file to a secure storage(SFTP)
+  * DB population script look for file changes or fetch file every few hours etc
+  * Upsert data in csv file to DB matching zip_code, city, street and house number fields
+
+For demonstration purpose, following command can be used to populate the database with a local csv file or file URL.
 
 ```bash
 FLASK_APP=good_energy_tariff_calc flask import_prices <file path or URL>
