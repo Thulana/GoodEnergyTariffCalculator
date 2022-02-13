@@ -61,7 +61,7 @@ Issue following commands from root folder of the project
 
 Environment variables defined in refer: [Environment Variables](#environment-variables)* can be provided like below. (If not provided, will fallback to default)
 
-* Run: `docker run -e DATABASE_URL=<database_url> -p 5000:5000 -td <image-name>`
+* Run: `docker run -e SECRET_KEY=<secret_key> -p 5000:5000 -td <image-name>`
 
 ### locally
 
@@ -98,13 +98,7 @@ To setup a SQLite3 database, navigate to the folder where `good_energy_tariff_ca
 export FLASK_APP=good_energy_tariff_calc.py
 ```
 
-To create database
-
-```bash
-flask db migrate "Create database"
-```
-
-To migrate changes
+To migrate changes and create database
 
 ```bash
 flask db upgrade

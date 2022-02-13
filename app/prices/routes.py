@@ -9,7 +9,7 @@ from flask_jwt_extended import jwt_required
 
 from marshmallow import ValidationError
 
-# Declare database schemas so they can be returned as JSON objects
+# Declare schema for parsing request
 price_request_schema = PriceRequestDeserializingSchema()
 
 

@@ -1,6 +1,7 @@
 from app import db, jwt
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from sqlalchemy import Index
 
 
 @jwt.user_lookup_loader
@@ -72,6 +73,16 @@ class Prices(db.Model):
     grid_fee = db.Column(db.Float, nullable=False)
     kwh_price = db.Column(db.Float, nullable=False)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+
+Index(
+    "idx_zip_code_city_street_house_no",
+    Prices.postal_code,
+    Prices.city,
+    Prices.street,
+    Prices.house_no_min,
+    Prices.house_no_max,
+)
 
 
 class RevokedTokenModel(db.Model):

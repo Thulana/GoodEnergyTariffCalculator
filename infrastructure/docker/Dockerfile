@@ -8,7 +8,6 @@ RUN apt-get update -y
 RUN apt-get install -y python3-flask
 RUN pip3 install -r requirements.txt
 
-RUN flask db migrate -m "Creating database"
 RUN flask db upgrade
 
 RUN FLASK_APP=good_energy_tariff_calc flask import_prices location_prices.csv
