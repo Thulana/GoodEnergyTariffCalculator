@@ -13,7 +13,7 @@ from marshmallow import ValidationError
 price_request_schema = PriceRequestDeserializingSchema()
 
 
-@bp.post("/tariff")
+@bp.get("/tariff")
 @jwt_required()
 def get_tariff() -> str:
     """

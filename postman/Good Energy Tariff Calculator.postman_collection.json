@@ -7,18 +7,21 @@
 	"item": [
 		{
 			"name": "Price - Get tariff",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjQ0NjY5NzQwLCJqdGkiOiJiODllNTZkNC1hOTI3LTRhNDAtOWE3ZC0zOWYxMWUxN2FiZTAiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2NDQ2Njk3NDAsImV4cCI6MTY0NDY3MDY0MH0.6Jqhygn5wNndMTIKI6NpGLiss5U-VbJ0Z3SQxLd8MWk",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjQ0OTg1MTY2LCJqdGkiOiJkNTcyODQ0Ny1mYzRmLTQzMTMtODIxMi00M2VlM2QyMGU3YmMiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2NDQ5ODUxNjYsImV4cCI6MTY0NDk4NjA2Nn0.dKbPjf_mhtSMmSGM1UcMHu8mdvi5zyafoRPs9DfDEwY",
 							"type": "string"
 						}
 					]
 				},
-				"method": "POST",
+				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",

@@ -44,7 +44,7 @@ Providing an API interface to calculate tariff on the fly
 | `POST /api/auth/register`        	  | Register new user in the system        | 
 | `POST /api/auth/login`        	     | Generate a token for API authentication | 
 | `GET /api/user/<username>`        	 | Retrieve user by username              | 
-| `POST /api/price/tariff`        	   | Calculate tariff                       |
+| `GET /api/price/tariff`        	    | Calculate tariff                       |
 
 * Postman collection is available on path `/postman`
 * NOTE: API will require registering and login to proceed with protected endpoint

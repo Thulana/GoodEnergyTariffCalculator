@@ -31,3 +31,7 @@ jobs:
       run: python3 -m unittest discover -s app/tests/
       env:
         FLASK_ENV: testing
+    - name: Test docker build
+      runs:
+        using: 'docker'
+        image: 'infrastructure/docker/Dockerfile'
