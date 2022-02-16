@@ -52,7 +52,7 @@ class TestPrices(unittest.TestCase):
             db.session.add(price)
             db.session.commit()
 
-            resp = c.post(
+            resp = c.get(
                 "/api/price/tariff",
                 headers={"Authorization": "Bearer {}".format(setup_access_token)},
                 json=payload,
@@ -104,7 +104,7 @@ class TestPrices(unittest.TestCase):
             db.session.add(price2)
             db.session.commit()
 
-            resp = c.post(
+            resp = c.get(
                 "/api/price/tariff",
                 headers={"Authorization": "Bearer {}".format(setup_access_token)},
                 json=payload,
@@ -142,7 +142,7 @@ class TestPrices(unittest.TestCase):
             db.session.add(price)
             db.session.commit()
 
-            resp = c.post(
+            resp = c.get(
                 "/api/price/tariff",
                 headers={"Authorization": "Bearer {}".format(setup_access_token)},
                 json=payload,
@@ -179,7 +179,7 @@ class TestPrices(unittest.TestCase):
             db.session.add(price)
             db.session.commit()
 
-            resp = c.post(
+            resp = c.get(
                 "/api/price/tariff",
                 headers={"Authorization": "Bearer {}".format(setup_access_token)},
                 json=payload,

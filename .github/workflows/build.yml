@@ -31,3 +31,8 @@ jobs:
       run: python3 -m unittest discover -s app/tests/
       env:
         FLASK_ENV: testing
+    - name: Get the version
+      id: vars
+      run: echo ::set-output name=tag::$(echo ${GITHUB_SHA:10})
+    - name: Build the Docker image
+      run: docker build . --file infrastructure/docker/Dockerfile --tag tariff_calc:${{steps.vars.outputs.tag}}
